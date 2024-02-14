@@ -78,5 +78,6 @@ fi
 helm dependency update .
 
 helm package .
-
+ls -la
+ls -la ../../
 helm cm-push ${CHART_FOLDER}-* ${CHARTMUSEUM_URL} -u ${CHARTMUSEUM_USER} -p ${CHARTMUSEUM_PASSWORD} ${FORCE} ${SKIP_SECURE} ${SSL_CERTIFICATE_PATH} ${SSL_CERTIFICATE_CA_PATH} ${SSL_CERTIFICATE_KEY_PATH} ${DEBUG_FLAG}
