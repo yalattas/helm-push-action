@@ -3,8 +3,6 @@
 set -e
 set -x
 
-ls
-
 if [ -z "$CHART_FOLDER" ]; then
   echo "CHART_FOLDER is not set. Quitting."
   exit 1
@@ -47,6 +45,25 @@ elif [ "$SSL_CERTIFICATE_PATH" != "" ]; then
   SSL_CERTIFICATE_PATH="--cert-file ${SSL_CERTIFICATE_PATH}"
 fi
 
+if [ -z "$SSL_CERTIFICATE_CA_PATH" ]; then
+  SSL_CERTIFICATE_CA_PATH=""
+elif [ "$SSL_CERTIFICATE_CA_PATH" != "" ]; then
+  SSL_CERTIFICATE_CA_PATH="--ca-file ${SSL_CERTIFICATE_CA_PATH}"
+fi
+
+if [ -z "$SSL_CERTIFICATE_KEY_PATH" ]; then
+  SSL_CERTIFICATE_KEY_PATH=""
+elif [ "$SSL_CERTIFICATE_KEY_PATH" != "" ]; then
+  SSL_CERTIFICATE_KEY_PATH="--key-file ${SSL_CERTIFICATE_KEY_PATH}"
+fi
+
+if [ -z "$DEBUG" ]; then
+  DEBUG=""
+elif [ "$DEBUG" == "1" ] || [ "$DEBUG" == "True" ] || [ "$DEBUG" == "TRUE" ]; then
+  DEBUG="--debug"
+fi
+
+
 
 cd ${SOURCE_DIR}/${CHART_FOLDER}
 
@@ -62,4 +79,4 @@ helm dependency update .
 
 helm package .
 
-helm cm-push ${CHART_FOLDER}-* ${CHARTMUSEUM_URL} -u ${CHARTMUSEUM_USER} -p ${CHARTMUSEUM_PASSWORD} ${FORCE} ${SKIP_SECURE} ${SSL_CERTIFICATE_PATH}
+helm cm-push ${CHART_FOLDER}-* ${CHARTMUSEUM_URL} -u ${CHARTMUSEUM_USER} -p ${CHARTMUSEUM_PASSWORD} ${FORCE} ${SKIP_SECURE} ${SSL_CERTIFICATE_PATH} ${SSL_CERTIFICATE_CA_PATH} ${SSL_CERTIFICATE_KEY_PATH} ${DEBUG}
