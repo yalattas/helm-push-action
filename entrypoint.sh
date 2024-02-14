@@ -58,9 +58,9 @@ elif [ "$SSL_CERTIFICATE_KEY_PATH" != "" ]; then
 fi
 
 if [ -z "$DEBUG" ]; then
-  DEBUG=""
+  DEBUG_FLAG=""
 elif [ "$DEBUG" == "1" ] || [ "$DEBUG" == "True" ] || [ "$DEBUG" == "TRUE" ]; then
-  DEBUG="--debug"
+  DEBUG_FLAG="--debug"
 fi
 
 
@@ -79,4 +79,4 @@ helm dependency update .
 
 helm package .
 
-helm cm-push ${CHART_FOLDER}-* ${CHARTMUSEUM_URL} -u ${CHARTMUSEUM_USER} -p ${CHARTMUSEUM_PASSWORD} ${FORCE} ${SKIP_SECURE} ${SSL_CERTIFICATE_PATH} ${SSL_CERTIFICATE_CA_PATH} ${SSL_CERTIFICATE_KEY_PATH} ${DEBUG}
+helm cm-push ${CHART_FOLDER}-* ${CHARTMUSEUM_URL} -u ${CHARTMUSEUM_USER} -p ${CHARTMUSEUM_PASSWORD} ${FORCE} ${SKIP_SECURE} ${SSL_CERTIFICATE_PATH} ${SSL_CERTIFICATE_CA_PATH} ${SSL_CERTIFICATE_KEY_PATH} ${DEBUG_FLAG}
